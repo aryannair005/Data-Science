@@ -14,6 +14,14 @@ Concepts Covered:
 8. Encapsulation
    - Private variables
    - Getters & Setters
+9. Inheritance
+   - Single level
+   - Multilevel
+   - Multiple
+10. Abstraction
+11. Polymorphism
+   - Method overriding
+   - Duck typing
 
 Purpose:
 - Understand OOP concepts
@@ -33,21 +41,20 @@ class Info:
     name = "Aryan"
     branch = "Btech cse"
 
-# Creating object
 stu = Info()
 print(stu.name, stu.branch)
 
 
 # ==============================
-# Constructor (__init__) & Methods
+# Constructor (__init__) & Instance Methods
 # ==============================
 
 class Student:
-    def __init__(self, name, branch):   # parameterized constructor
+    def __init__(self, name, branch):
         self.name = name
         self.branch = branch
 
-    def return_name(self):              # instance method
+    def return_name(self):
         return self.name
 
 s1 = Student("Aryan", "Btech cse")
@@ -65,17 +72,17 @@ class College_Info:
     PI = 3.1
 
     def __init__(self, name, branch):
-        self.name = name          # instance attribute
+        self.name = name
         self.branch = branch
-        self.PI = 3.14            # instance attribute (overrides class)
+        self.PI = 3.14            # instance attribute
 
     def get_name(self):
         print(f"The name of the student is {self.name}")
 
 c1 = College_Info("aryan", "btech CSE")
 
-print(c1.PI)             # instance attribute
-print(College_Info.PI)   # class attribute
+print(c1.PI)
+print(College_Info.PI)
 c1.get_name()
 
 
@@ -104,7 +111,7 @@ print(Cars.get_discount(40_000, 10))
 
 
 # ==============================
-# Class Variable Example (Object Counter)
+# Class Variable (Object Counter)
 # ==============================
 
 class Product:
@@ -134,11 +141,9 @@ class BankAccount:
         self.name = name
         self.__balance = balance   # private variable
 
-    # Getter
     def get_balance(self):
         return self.__balance
 
-    # Setter
     def set_balance(self, newBalance):
         self.__balance = newBalance
 
@@ -147,5 +152,88 @@ b = BankAccount("aryan", 10_000)
 b.set_balance(20_000)
 print(b.get_balance())
 
-# Accessing private variable using name mangling (not recommended)
+# Name mangling (not recommended for regular use)
 print(b._BankAccount__balance)
+
+
+# ==============================
+# Inheritance
+# ==============================
+
+# Single level inheritance
+class Employee:
+    start_time = "09:00 am"
+    end_time = "05:00 pm"
+
+class Teacher(Employee):
+    def __init__(self, subject):
+        self.subject = subject
+
+
+# Multilevel inheritance
+class Hod(Teacher):
+    def __init__(self, department, subject):
+        super().__init__(subject)
+        self.department = department
+
+
+# Multiple inheritance
+class CollegeStudent:
+    def __init__(self, gpa):
+        self.gpa = gpa
+
+class TA(Teacher, CollegeStudent):
+    def __init__(self, gpa, subject, name):
+        Teacher.__init__(self, subject)
+        CollegeStudent.__init__(self, gpa)
+        self.name = name
+
+
+# ==============================
+# Abstraction
+# ==============================
+
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def sound(self):
+        pass
+
+class Dog(Animal):
+    def sound(self):
+        print("Bow")
+
+class Cat(Animal):
+    def sound(self):
+        print("Meow")
+
+
+# ==============================
+# Polymorphism
+# ==============================
+
+# Method Overriding
+class Watch:
+    def cost(self):
+        print("10000")
+
+class Rolex(Watch):
+    def cost(self):
+        print("150000")
+
+
+# Duck Typing
+class CollegeTeacher:
+    def get_salary(self):
+        print("10000")
+
+class CollegeDean:
+    def get_salary(self):
+        print("14000")
+
+ct = CollegeTeacher()
+ct.get_salary()
+
+cd = CollegeDean()
+cd.get_salary()
