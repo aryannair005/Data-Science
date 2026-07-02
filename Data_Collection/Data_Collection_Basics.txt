@@ -1,0 +1,28 @@
+Data Collection : Data Collection is the process of gathering raw data from different sources so it can be cleaned, analyzed, and used to build machine learning models or make data-driven decisions.
+
+Types of Data Collection in Data Science
+
+1- Primary Data: Data collected directly by the data scientist for a specific problem.
+Example: 
+         Sensors & Devices
+         Surveys & Forms
+Advantages
+        Accurate and relevant
+        Up-to-date
+Disadvantages
+
+2- Secondary Data: A Secondary Data Source is a source that contains data already collected by someone else, which is reused for analysis.
+Example:  
+        Databases (SQL, NoSQL)
+        Public Datasets (Kaggle, UCI ML Repository)
+        APIs (Twitter API, Weather API, Stock API)
+        Web Scraping (HTML pages, blogs/articles, social media pages etc)
+Advantages
+Disadvantaged
+3- System Generated Data:A System-Generated Data Source is a source where data is automatically created by software, computers, or devices without manual input.
+Example:
+        Logs
+        Video Feeds
+        Synthetic Data
+Advantages
+Disadvantages
