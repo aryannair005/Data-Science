@@ -1,0 +1,157 @@
+# Transactions
+
+## What is a Transaction?
+
+A **transaction** is a **group (series) of SQL operations** that are treated as **one single unit of work**.
+
+A transaction has only **two possible outcomes**:
+
+- ✅ **COMMIT** – All operations are completed successfully, and the changes are permanently saved.
+- ❌ **ROLLBACK** – If any operation fails, all previous changes are undone, and the database returns to its previous state.
+
+---
+
+# ACID Properties
+
+## 1. Atomicity (All or Nothing)
+
+### Definition
+
+Atomicity ensures that **either all statements in a transaction are executed successfully or none of them are executed**.
+
+### Example
+
+Suppose **Aryan** wants to transfer **₹1000** from his bank account to **Rahul's** account.
+
+The transaction consists of two operations:
+
+1. Deduct ₹1000 from Aryan's account.
+2. Add ₹1000 to Rahul's account.
+
+If both operations are completed successfully, the transaction is successful.
+
+However, if the money is deducted from Aryan's account but, due to a **power failure** or **server crash**, it cannot be added to Rahul's account, the database automatically performs a **ROLLBACK**.
+
+Aryan's account balance is restored to its original value.
+
+This is called **Atomicity**, meaning **either all operations happen or none of them happen**.
+
+---
+
+## 2. Consistency (Database Stays Valid)
+
+### Definition
+
+Consistency ensures that a transaction moves the database **from one valid state to another valid state**, maintaining all database rules and constraints.
+
+### Example
+
+Before the transaction:
+
+| Account | Balance |
+|---------|---------:|
+| Aryan | ₹5000 |
+| Rahul | ₹3000 |
+| **Total Money** | **₹8000** |
+
+After transferring ₹1000:
+
+| Account | Balance |
+|---------|---------:|
+| Aryan | ₹4000 |
+| Rahul | ₹4000 |
+| **Total Money** | **₹8000** |
+
+The total amount of money remains unchanged, so the database stays in a **valid state**.
+
+If the transaction stopped after deducting money from Aryan but before adding it to Rahul, the total money would become **₹7000**, which is an **invalid state**.
+
+The database prevents such situations, ensuring that data always remains consistent.
+
+---
+
+## 3. Isolation (Transactions Don't Interfere)
+
+### Definition
+
+Isolation ensures that **multiple transactions running at the same time do not interfere with each other**.
+
+### Example
+
+Suppose Aryan has **₹5000** in his account.
+
+At the same time, he performs two transactions:
+
+- ATM Withdrawal = **₹1000**
+- Online Payment = **₹500**
+
+If both transactions read the balance simultaneously, each assumes the balance is **₹5000**.
+
+The updates may become:
+
+- Transaction 1 → Balance = **₹4000**
+- Transaction 2 → Balance = **₹4500**
+
+However, the correct balance should be:
+
+```text
+₹5000 - ₹1000 - ₹500 = ₹3500
+```
+
+Isolation ensures that transactions are executed in a controlled manner, preventing interference and producing the correct final balance.
+
+---
+
+## 4. Durability (Data is Permanently Saved)
+
+### Definition
+
+Durability guarantees that **once a transaction is COMMITTED, its changes are permanently stored**, even if the system crashes immediately afterward.
+
+### Example
+
+Suppose Aryan successfully transfers **₹1000** to Rahul, and the database executes a **COMMIT**.
+
+Immediately after the transaction is committed, the bank server crashes due to a power outage.
+
+When the server restarts:
+
+| Account | Balance |
+|---------|---------:|
+| Aryan | ₹4000 |
+| Rahul | ₹4000 |
+
+The transaction is **not lost** because it was permanently saved before the crash.
+
+This property is called **Durability**, which guarantees that committed data remains permanent even after system failures.
+
+---
+
+# COMMIT vs ROLLBACK
+
+| COMMIT | ROLLBACK |
+|--------|----------|
+| Saves all changes permanently. | Undoes all changes made during the transaction. |
+| Used when every operation is successful. | Used when an error occurs. |
+| Changes cannot be undone. | Database returns to its previous state. |
+
+---
+
+# Summary
+
+| Property | Meaning | Easy Remember |
+|----------|---------|---------------|
+| **Atomicity** | Either all operations succeed or none succeed. | **All or Nothing** |
+| **Consistency** | Database moves from one valid state to another valid state. | **Database remains correct** |
+| **Isolation** | Parallel transactions do not interfere with each other. | **Transactions work independently** |
+| **Durability** | Once committed, changes are permanently saved. | **Saved forever after COMMIT** |
+
+---
+
+> **💡 Memory Trick:**  
+> **ACID = A C I D**
+>
+> - **A** → Atomicity → **All or Nothing**
+> - **C** → Consistency → **Correct Data**
+> - **I** → Isolation → **Independent Transactions**
+> - **D** → Durability → **Data Saved Forever**
