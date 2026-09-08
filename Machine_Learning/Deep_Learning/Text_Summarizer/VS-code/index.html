@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarizer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        min-height: 100vh;
+        background: #f6f5f1;
+        color: #20211e;
+        font-family: "DM Sans", sans-serif;
+        padding: 28px 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 850px;
+        margin: auto;
+    }
+
+
+    /* Header */
+
+    .container::before {
+        content: "NLP / TRANSFORMER PROJECT";
+
+        display: block;
+
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 1.5px;
+
+        color: #687466;
+
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+
+        border-bottom: 1px solid #d7d6d0;
+    }
+
+    h1 {
+        font-family: "Playfair Display", Georgia, serif;
+
+        font-size: 44px;
+        line-height: 1;
+
+        font-weight: 500;
+        letter-spacing: -1.5px;
+
+        margin-bottom: 10px;
+    }
+
+    .container > h3 {
+        display: inline-block;
+
+        font-family: "DM Mono", monospace;
+
+        font-size: 9px;
+        font-weight: 500;
+
+        letter-spacing: 1px;
+        text-transform: uppercase;
+
+        color: #41634c;
+
+        border: 1px solid #aebcae;
+
+        padding: 4px 8px;
+
+        margin-bottom: 10px;
+    }
+
+    .container > p {
+        color: #77766f;
+
+        font-size: 13px;
+        line-height: 1.4;
+
+        margin-bottom: 22px;
+    }
+
+
+    /* Input */
+
+    form {
+        background: #ffffff;
+
+        border: 1px solid #d5d4ce;
+
+        border-radius: 3px;
+
+        overflow: hidden;
+
+        box-shadow: 0 5px 15px rgba(35, 35, 30, 0.04);
+    }
+
+    form::before {
+        content: "01   INPUT";
+
+        display: block;
+
+        font-family: "DM Mono", monospace;
+
+        font-size: 9px;
+        letter-spacing: 1px;
+
+        color: #77766f;
+
+        padding: 9px 14px;
+
+        border-bottom: 1px solid #e2e1dc;
+
+        background: #fafaf8;
+    }
+
+
+    /* Textarea */
+
+    textarea {
+        display: block;
+
+        width: 100%;
+        height: 210px;
+
+        resize: none;
+
+        border: none;
+        outline: none;
+
+        background: #ffffff;
+
+        color: #292a27;
+
+        padding: 15px;
+
+        font-family: "DM Mono", monospace;
+
+        font-size: 11px;
+        line-height: 1.65;
+    }
+
+    textarea::placeholder {
+        color: #aaa9a2;
+    }
+
+    textarea:focus {
+        background: #fdfdfb;
+    }
+
+
+    /* Button */
+
+    button {
+        display: block;
+
+        margin: 0 14px 14px auto;
+
+        padding: 9px 18px;
+
+        background: #20211e;
+        color: #ffffff;
+
+        border: none;
+        border-radius: 3px;
+
+        font-family: "DM Sans", sans-serif;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: 0.2s ease;
+    }
+
+    button:hover {
+        background: #41634c;
+    }
+
+    button:active {
+        transform: translateY(1px);
+    }
+
+
+    /* Output */
+
+    #summary-output {
+        position: relative;
+
+        margin-top: 22px;
+
+        padding: 16px 20px 20px;
+
+        background: #e9eee8;
+
+        border: 1px solid #cbd4ca;
+
+        border-radius: 3px;
+    }
+
+    #summary-output::before {
+        content: "02   OUTPUT";
+
+        display: block;
+
+        font-family: "DM Mono", monospace;
+
+        font-size: 9px;
+        letter-spacing: 1px;
+
+        color: #58705d;
+
+        margin-bottom: 10px;
+    }
+
+    #summary-output::after {
+        content: "";
+
+        position: absolute;
+
+        left: 0;
+        top: 40px;
+
+        width: 2px;
+
+        height: calc(100% - 55px);
+
+        background: #41634c;
+    }
+
+    #summary-heading {
+        font-family: "Playfair Display", Georgia, serif;
+
+        font-size: 21px;
+        font-weight: 500;
+
+        margin-bottom: 7px;
+
+        padding-left: 12px;
+    }
+
+    #summary-text {
+        color: #464b45;
+
+        font-size: 12px;
+        line-height: 1.65;
+
+        padding-left: 12px;
+    }
+
+
+    /* Footer */
+
+    .container::after {
+        content: "TEXT SUMMARIZATION  •  HUGGINGFACE  •  TRANSFORMERS";
+
+        display: block;
+
+        margin-top: 20px;
+        padding-top: 10px;
+
+        border-top: 1px solid #d7d6d0;
+
+        font-family: "DM Mono", monospace;
+
+        font-size: 8px;
+        letter-spacing: 0.8px;
+
+        color: #999890;
+    }
+
+
+    /* Mobile */
+
+    @media (max-width: 600px) {
+
+        body {
+            padding: 20px 14px;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        textarea {
+            height: 230px;
+        }
+
+        button {
+            width: calc(100% - 28px);
+            margin: 0 14px 14px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Text Summarizer</h1>
+        <h3>using HuggingFace Transformer</h3>
+        <p>Write or Paste your content below for quick summarization.</p>
+
+        <form id="summarization-form">
+            <textarea id="dialogue-input" placeholder="Enter your content here..." required></textarea>
+            <button type="submit">Summarize</button>
+        </form>
+
+        <div id="summary-output">
+            <h3 id="summary-heading">Content Summary</h3>
+            <p id="summary-text"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("summarization-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+        
+            const dialogueInput = document.getElementById("dialogue-input");
+            const summaryText = document.getElementById("summary-text");
+            const submitButton = e.target.querySelector("button");
+        
+            const dialogue = dialogueInput.value.trim();
+            if (!dialogue) return;
+        
+            summaryText.innerText = "Processing...";
+            submitButton.disabled = true;
+        
+            try {
+                const response = await fetch("/summarize/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ dialogue }),
+                });
+        
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+        
+                const data = await response.json();
+                summaryText.innerText = data.summary || "No summary returned.";
+            } catch (err) {
+                
+                summaryText.innerText = `Error: ${err.message}`;
+            } finally {
+                
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
